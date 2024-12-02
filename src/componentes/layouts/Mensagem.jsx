@@ -2,8 +2,11 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import apagar from '../../assets/icons/apagar.svg';
 import { useDispatch, useSelector } from "react-redux";
 import { deleteMensagem } from "../../redux/mensagemReducer";
+import { useContext } from "react";
+import { ContextoUsuario } from "../../App";
 
 export default function Mensagem(props) {
+    const {usuario} = useContext(ContextoUsuario);
     const { estado } = useSelector((state) => state.mensagens);
     const despachante = useDispatch();
 
@@ -34,9 +37,13 @@ export default function Mensagem(props) {
                     <div style={{ fontSize: "10px", fontFamily: "monospace" }}>{props.data}</div>
                 </Col>
                 <Col md={2}>
-                    <Button variant="light" onClick={() => handleDelete(props.id)}>
-                        <img src={apagar} style={{ width: '20px' }} />
-                    </Button>
+                    {
+                        usuario.nickname === props.nickname ?
+                        <Button variant="light" onClick={() => handleDelete(props.id)}>
+                            <img src={apagar} style={{ width: '20px' }} />
+                        </Button>
+                        : ''
+                    }
                 </Col>
             </Row>
         </Container>
